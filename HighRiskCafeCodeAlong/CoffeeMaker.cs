@@ -16,12 +16,13 @@
 
             while (isAskingForCoffee)
             {
+                Console.Clear();
                 Console.WriteLine("Do you want a coffee?");
                 Console.WriteLine("Type \"y\" for yes, \"n\" for no");
                 Console.Write("Response: ");
-                string? response = Console.ReadLine();
+                string? response = Console.ReadLine()?.ToLower();
 
-                if (response?.ToLower() == "y" || response?.ToLower() == "n")
+                if (response == "y" || response == "n")
                 {
                     return response;
                 }
