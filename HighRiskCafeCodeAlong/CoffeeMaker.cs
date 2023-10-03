@@ -5,29 +5,35 @@
 
         private List<string> _coffeeTypes = new() { "Espresso", "Macchiato", "Cortado", "Mocha", "Americano", "Cappuccino" };
 
+        public Coffee? newCoffee { get; set; }
+
         public void MakeCoffee()
         {
             string? response = AskForCoffee();
 
             if (response == "y")
             {
-                Coffee newCoffee = new(AskForCoffeeType());
+                newCoffee = new(AskForCoffeeType());
 
                 Console.WriteLine($"Starting to make {newCoffee}...");
 
                 PutCoffeeInMachine();
 
+                //if (!string.IsNullOrEmpty(newCoffee.FailedStep))
+                //{
+                //    Console.WriteLine(newCoffee.FailedStep);
+                //}
+                Console.WriteLine(newCoffee!.GetInfo());
             }
             else
             {
-
+                Console.WriteLine("Nähä, skit i det då.");
+                Presskey();
             }
         }
 
         private string? AskForCoffee()
         {
-
-
             while (true)
             {
                 Console.Clear();
@@ -40,10 +46,7 @@
                 {
                     return response;
                 }
-
             }
-
-
         }
 
         private string AskForCoffeeType()
@@ -90,43 +93,113 @@
 
         }
 
-        private void DetermineSuccess()
-        {
 
+
+        private bool DetermineSuccess()
+        {
+            int randomNumber = new Random().Next(1, 101);
+
+            if (randomNumber <= 20)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
 
         private void PutCoffeeInMachine()
         {
             Console.WriteLine("Attempting to put coffee in machine...");
+
+            Thread.Sleep(1000);
+
             if (DetermineSuccess())
             {
                 // Lyckas
+                Console.WriteLine("Putting coffee in machine successfull!");
+                PutWaterInMachine();
             }
             else
             {
-                // Misslyckas            
+                // Misslyckas
+                newCoffee!.FailedStep = "Failed to put coffee in machine";
             }
 
         }
 
         private void PutWaterInMachine()
         {
+            Console.WriteLine("Attempting to put water in machine...");
+            Thread.Sleep(1000);
 
+            if (DetermineSuccess())
+            {
+                // Lyckas
+                Console.WriteLine("Putting water in machine successfull!");
+                PutCupInMachine();
+            }
+            else
+            {
+                // Misslyckas
+                newCoffee!.FailedStep = "Failed to put water in machine";
+            }
         }
 
         public void PutCupInMachine()
         {
+            Console.WriteLine("Attempting to put cup in machine...");
+            Thread.Sleep(1000);
 
+            if (DetermineSuccess())
+            {
+                // Lyckas
+                Console.WriteLine("Putting coffee in cup successfull!");
+                StartMachine();
+            }
+            else
+            {
+                // Misslyckas
+                newCoffee!.FailedStep = "Failed to put cup in machine";
+            }
         }
 
-        public void StarMachine()
+        public void StartMachine()
         {
+            Console.WriteLine("Attempting to start machine...");
+            Thread.Sleep(1000);
 
+            if (DetermineSuccess())
+            {
+                // Lyckas
+                Console.WriteLine("Starting machine successfull!");
+                ServeCoffeeToGuest();
+            }
+            else
+            {
+                // Misslyckas
+                newCoffee!.FailedStep = "Failed to start machine";
+            }
         }
 
         private void ServeCoffeeToGuest()
         {
+            Console.WriteLine("Attempting to serve coffee to guest...");
+            Thread.Sleep(1000);
 
+            if (DetermineSuccess())
+            {
+                // Lyckas
+                Console.WriteLine("You have successfully served the guest with coffee!");
+                newCoffee!.IsDone = true;
+
+            }
+            else
+            {
+                // Misslyckas
+                newCoffee!.FailedStep = "Failed to serve guest with coffee...";
+            }
         }
 
 

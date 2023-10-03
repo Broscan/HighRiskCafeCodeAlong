@@ -12,5 +12,17 @@
         {
             CoffeeType = coffeeType;
         }
+
+        public string GetInfo()
+        {
+            if (IsDone)
+            {
+                return $"{CoffeeType} was made successfully";
+            }
+            else
+            {
+                return $"Failed to make {CoffeeType}. {FailedStep}";
+            }
+        }
     }
 }
